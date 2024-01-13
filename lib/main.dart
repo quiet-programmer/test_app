@@ -1,9 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 import 'package:my_template/app/src/app.dart';
+import 'package:my_template/const_value.dart';
+import 'package:my_template/models/product_model.dart';
 import 'package:my_template/providers/error_dialog_provider.dart';
 import 'package:my_template/providers/theme_provider.dart';
+import 'package:my_template/providers/user_provider.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+
+import 'models/user_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,31 +25,16 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  // Directory document = await getApplicationDocumentsDirectory();
-  // Hive
-  //   ..init(document.path)
-  //   ..registerAdapter(UserModelAdapter());
-  // final stateOfApp = await Hive.openBox<UserModel>(userModel);
+  Directory document = await getApplicationDocumentsDirectory();
+  Hive
+    ..init(document.path)
+    ..registerAdapter(UserModelAdapter());
+  var user = await Hive.openBox<UserModel>(userModel);
 
-  // if (stateOfApp.get(balanceKey) == null) {
-  //   await stateOfApp.put(balanceKey, UserModel());
-  // }
-  //
-  // if (stateOfApp.get(firstLoginKey) == null) {
-  //   await stateOfApp.put(firstLoginKey, UserModel());
-  // }
-  //
-  // if (stateOfApp.get(allowNotificationKey) == null) {
-  //   await stateOfApp.put(allowNotificationKey, UserModel());
-  // }
-  //
-  // if (stateOfApp.get(bioAuthKey) == null) {
-  //   await stateOfApp.put(bioAuthKey, UserModel());
-  // }
-  //
-  // if (stateOfApp.get(userAuthKey) == null) {
-  //   await stateOfApp.put(userAuthKey, UserModel());
-  // }
+  Hive
+    ..init(document.path)
+    ..registerAdapter(ProductModelAdapter());
+  await Hive.openBox<ProductModel>(productModel);
 
   runApp(
     MultiProvider(

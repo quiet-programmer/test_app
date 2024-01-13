@@ -8,9 +8,8 @@ import 'package:my_template/utils/hex_to_color.dart';
 
 var logger = Logger();
 
-String apiUrl = 'https://api.liteteller.ng';
-// String flwKey = 'FLWPUBK_TEST-f38ab43db55eeedd2f375ab8a69f8820-X';
-String flwKey = 'FLWPUBK-6a3c3f2fc9acd217fa71656ec142fed6-X';
+String apiUrl = 'https://fakestoreapi.com';
+String authApiUrl = 'https://test.h20express.co/api/v1';
 
 //other colors
 const defaultWhite = Color.fromRGBO(255, 255, 255, 1);
@@ -21,6 +20,7 @@ const defaultBlack = Color.fromRGBO(0, 0, 0, 1);
 const double iOSIndicatorSize = 20;
 
 // asset exports
+String dev = 'assets/dev';
 String iconsAssets = 'assets/icons';
 String gifsAssets = 'assets/gifs';
 String imagesAssets = 'assets/images';
@@ -33,9 +33,12 @@ Color? cardColor = Colors.grey[850];
 
 //colors for the app
 const Color backColor = Color.fromRGBO(21, 32, 54, 1);
-Color frontColor = hexToColor('#6F3BED');
+Color frontColor = hexToColor('#e05525');
 Color frontColorTwo = hexToColor('#f0eef7');
 Color secondaryColor = hexToColor('#e0dee8');
+Color frontBackColor = hexToColor('#fff9f7');
+Color selectColor = hexToColor('#6C63FF');
+Color secondaryTextColor = hexToColor('#737373');
 Color primaryGrey = hexToColor('#F9F9F9');
 Color secondaryGrey = hexToColor('#F5F5F5');
 Color primaryGold = hexToColor('#C9B902');
@@ -56,6 +59,7 @@ Color mGrey = grey.withOpacity(0.4);
 
 // hive box name
 const String userModel = 'userModel';
+const String productModel = 'productModel';
 const String invoiceModel = 'invoiceModel';
 
 // hive store key

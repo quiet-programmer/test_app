@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:my_template/app/auth/wrapper.dart';
 import 'package:my_template/const_value.dart';
 import 'package:my_template/functions/navigate_to.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -14,7 +15,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -26,36 +26,17 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('$imagesAssets/splash.png'),
-            fit: BoxFit.cover,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: SvgPicture.asset(
+              '$dev/logo.svg',
+              semanticsLabel: 'Acme Logo',
+              width: 200.w,
+            ),
           ),
-        ),
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                '$imagesAssets/liteteller_logo.png',
-                width: 80.w,
-                height: 80.w,
-              ),
-              SizedBox(
-                width: 5.w,
-              ),
-              Text(
-                'Liteteller',
-                style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24.sp,
-                    color: defaultWhite
-                ),
-              ),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }

@@ -29,17 +29,6 @@ class GetRequest {
         },
       );
 
-      var status = json.decode(res.body)['status'] ??
-          json.decode(res.body)['statusCode'];
-      if (status == 401 || status == 500 || res.statusCode == 401 || res.statusCode == 500) {
-        storeData?.delete(tokenKey);
-        storeData?.delete(balanceAmountKey);
-        Fluttertoast.showToast(
-          msg: 'Your Session has expired.',
-          gravity: ToastGravity.CENTER,
-        );
-        navigateEndTo(context!, destination: LoginScreen());
-      }
       return json.decode(res.body);
     } on FormatException catch (e) {
       storeData?.delete(tokenKey);

@@ -17,71 +17,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final FirebaseMessaging? _firebaseMessaging = FirebaseMessaging.instance;
 
-  Box<UserModel>? storeData;
-
-  @override
-  void initState() {
-    super.initState();
-    storeData = Hive.box<UserModel>(userModel);
-
-    var messaging = FirebaseMessaging.instance;
-
-    messaging.getToken().then((value) {
-      // logger.i(value);
-    });
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-
-      // logger.i("onMessage: ${message.data}");
-      if (notification != null && android != null) {
-        logger.i('Message Title: ${notification.title}');
-        logger.i('Message Body: ${notification.body}');
-        // ... and so on, for other properties of the notification
-      }
-      // Handle the foreground notification
-      // navigateTo(context, destination: NotificationScreen());
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      logger.i('A new onMessageOpenedApp event was published: $message');
-      // Handle the notification caused by tapping on it in the system tray
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-
-      // logger.i("onMessage: ${message.data}");
-      if (notification != null && android != null) {
-        logger.i('Message Title: ${notification.title}');
-        logger.i('Message Body: ${notification.body}');
-        // ... and so on, for other properties of the notification
-      }
-      // navigateTo(context, destination: NotificationScreen());
-    });
-
-    messaging
-        .getInitialMessage()
-        .then((RemoteMessage? message) {
-      if (message != null) {
-        logger.i('A new getInitialMessage event was published: $message');
-        RemoteNotification? notification = message.notification;
-        AndroidNotification? android = message.notification?.android;
-
-        // logger.i("onMessage: ${message.data}");
-        if (notification != null && android != null) {
-          logger.i('Message Title: ${notification.title}');
-          logger.i('Message Body: ${notification.body}');
-          // ... and so on, for other properties of the notification
-        }
-        // navigateTo(context, destination: NotificationScreen());
-        // Handle the notification caused by tapping on it in the system tray,
-        // which launched the application.
-      }
-    });
-
-  }
   @override
   Widget build(BuildContext context) {
     final checkTheme = Provider.of<ThemeProvider>(context);
@@ -93,7 +29,7 @@ class _AppState extends State<App> {
           debugShowCheckedModeBanner: false,
           theme:
           checkTheme.mTheme == false ? buildLightTheme() : buildDarkTheme(),
-          title: 'Liteteller Pay',
+          title: 'Test App',
           home: const SplashScreen(),
         );
       },

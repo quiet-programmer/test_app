@@ -2,32 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
-import 'package:my_template/app/auth/register_screen.dart';
 import 'package:my_template/app/screens/tab_screen.dart';
 import 'package:my_template/const_value.dart';
 import 'package:my_template/functions/navigate_to.dart';
 import 'package:my_template/models/user_model.dart';
-import 'package:my_template/providers/user_provider.dart';
 import 'package:my_template/request/post_request.dart';
 import 'package:my_template/widgets/mNew_text_widget.dart';
 import 'package:my_template/widgets/mbutton.dart';
-import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final formKey = GlobalKey<FormState>();
+class _RegisterScreenState extends State<RegisterScreen> {
   Box<UserModel>? storeData;
+
+  final formKey = GlobalKey<FormState>();
   bool offText = true;
   bool isLoading = false;
 
+  String? fullName;
   String? email;
   String? password;
+
 
   Future validateDetails() async {
     setState(() {
@@ -35,12 +35,13 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     var params = {
-      'userLogin': '$email',
+      'full_name': '$fullName',
+      'email': '$email',
       'password': '$password',
     };
 
     var res = await PostRequest.makePostRequest(
-      requestEnd: 'user/auth/authenticate',
+      requestEnd: 'user/auth/register',
       params: params,
       context: context,
     );
@@ -48,9 +49,9 @@ class _LoginScreenState extends State<LoginScreen> {
     logger.i(res);
 
     try {
-      if (res['status'] == 200) {
+      if (res['status'] == 201) {
         logger.i(res);
-        Fluttertoast.showToast(msg: 'Authenticated.');
+        Fluttertoast.showToast(msg: 'Registered.');
         UserModel user = UserModel.fromJsonUserDetails(res['data']);
         storeData!.put(userKey, user);
 
@@ -100,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Welcome Back👋',
+                      'Welcome to Product👋',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: 22.sp,
@@ -111,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 5.h,
                     ),
                     Text(
-                      'Enter your Login details',
+                      'Create an Account for easy access',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: 17.sp,
@@ -122,6 +123,15 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(
                 height: 15.h,
+              ),
+              MNewTextField(
+                fieldName: 'Joseph',
+                sideText: 'Full Name',
+                onSave: (val) {
+                  setState(() {
+                    fullName = val;
+                  });
+                },
               ),
               MNewTextField(
                 fieldName: 'user@email.com',
@@ -149,13 +159,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
               ),
               MButton(
-                title: 'Login',
+                title: 'Sign up',
                 isLoading: isLoading,
                 onPressed: () {
                   var form = formKey.currentState;
                   if(form!.validate()) {
                     form.save();
-                    // logger.i(email);
                     validateDetails();
                   }
                 },
@@ -165,10 +174,10 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  navigateTo(context, destination: const RegisterScreen());
+                  Navigator.pop(context);
                 },
                 child: Text(
-                  'Don\'t have an Account ? Sign Up',
+                  'Already have an Account ? Sign In',
                   style: TextStyle(
                     fontSize: 15.sp,
                     fontWeight: FontWeight.bold,

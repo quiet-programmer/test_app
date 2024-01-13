@@ -22,7 +22,7 @@ class PostRequest {
     BuildContext? context,
     Box<UserModel>? storeData,
   }) async {
-    var url = Uri.decodeFull('$apiUrl/$requestEnd');
+    var url = Uri.decodeFull('$authApiUrl/$requestEnd');
 
     try {
       if (isJson == true) {
