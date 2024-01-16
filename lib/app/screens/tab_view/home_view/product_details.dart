@@ -99,13 +99,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    '${product!.title}',
-                                    style: GoogleFonts.dmSans(
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.bold,
+                                  Expanded(
+                                    child: Text(
+                                      '${product!.title}',
+                                      style: GoogleFonts.dmSans(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      overflow: TextOverflow.clip,
                                     ),
-                                    overflow: TextOverflow.clip,
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
@@ -129,6 +131,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     ],
                                   ),
                                 ],
+                              ),
+                              SizedBox(
+                                height: 5.h,
                               ),
                               Row(
                                 children: [

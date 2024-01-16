@@ -1,11 +1,7 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 import 'package:my_template/app/src/spalsh_screen.dart';
-import 'package:my_template/const_value.dart';
 import 'package:my_template/custom_theme.dart';
-import 'package:my_template/models/user_model.dart';
 import 'package:my_template/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
