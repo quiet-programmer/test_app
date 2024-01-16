@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:my_template/app/screens/tab_view/home_view/product_details.dart';
 import 'package:my_template/const_value.dart';
 import 'package:my_template/functions/navigate_to.dart';
+import 'package:my_template/models/favourite_manager.dart';
 import 'package:my_template/models/product_model.dart';
+import 'package:my_template/models/user_model.dart';
 import 'package:my_template/utils/hex_to_color.dart';
 
 class ProductListComponent extends StatefulWidget {
@@ -18,6 +22,13 @@ class ProductListComponent extends StatefulWidget {
 }
 
 class _ProductListComponentState extends State<ProductListComponent> {
+  Box<ProductModel>? storeProductData;
+
+  @override
+  void initState() {
+    super.initState();
+    storeProductData = Hive.box<ProductModel>(productModel);
+  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -69,50 +80,58 @@ class _ProductListComponentState extends State<ProductListComponent> {
               ),
             ),
             const Expanded(child: SizedBox()),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${widget.product!.title}',
-                      style: GoogleFonts.dmSans(
-                        color: defaultWhite,
-                        fontSize: 16.sp,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ValueListenableBuilder(
+                valueListenable: storeProductData!.listenable(),
+              builder: (context, Box<ProductModel> userData, _) {
+                return Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${currencyFormatter(widget.product!.price, '\$')}',
+                          '${widget.product!.title}',
                           style: GoogleFonts.dmSans(
                             color: defaultWhite,
                             fontSize: 16.sp,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        GestureDetector(
-                          child: FaIcon(
-                            FontAwesomeIcons.heart,
-                            color: frontColor,
-                            size: 20.r,
-                          ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '${currencyFormatter(widget.product!.price, '\$')}',
+                              style: GoogleFonts.dmSans(
+                                color: defaultWhite,
+                                fontSize: 16.sp,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                FavoriteManager.toggleFavorite(widget.product!);
+                              },
+                              child: FaIcon(
+                                FavoriteManager.isFavorite(widget.product!.id!) == false ? FontAwesomeIcons.heart : FontAwesomeIcons.solidHeart,
+                                color: frontColor,
+                                size: 20.r,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20.h,
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              }
             )
           ],
         ),

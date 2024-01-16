@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:my_template/app/src/app.dart';
 import 'package:my_template/const_value.dart';
+import 'package:my_template/models/favourite_manager.dart';
 import 'package:my_template/models/product_model.dart';
 import 'package:my_template/providers/error_dialog_provider.dart';
 import 'package:my_template/providers/theme_provider.dart';
@@ -34,7 +35,9 @@ void main() async {
   Hive
     ..init(document.path)
     ..registerAdapter(ProductModelAdapter());
-  await Hive.openBox<ProductModel>(productModel);
+  var product = await Hive.openBox<ProductModel>(productModel);
+
+  FavoriteManager.setFavoritesBox(product);
 
   runApp(
     MultiProvider(
